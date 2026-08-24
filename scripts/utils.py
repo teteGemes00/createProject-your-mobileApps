@@ -44,6 +44,72 @@ def load_env_inputs() -> Dict[str, str]:
         'github_actor': os.getenv('GITHUB_ACTOR', 'developer'),
     }
 
+def build_template_variables(inputs: dict, config: dict) -> Dict[str, Any]:
+    """Build template variables from inputs and config"""
+    jdk_ver = inputs.get('jdk_version', '11')
+    gradle_ver = inputs.get('gradle_version', 'latest')
+    
+    # Get dependency versions from config
+    dependencies = config.get('dependencies', {})
+    androidx = dependencies.get('androidx', {})
+    testing = dependencies.get('testing', {})
+    androidx_test = dependencies.get('androidx-test', {})
+    
+    # Get gradle versions
+    gradle_config = config.get('gradle', {})
+    gradle_versions = gradle_config.get('versions', {})
+    resolved_gradle_version = gradle_versions.get(gradle_ver, gradle_versions.get('latest', '8.5.0'))
+    
+    # Get kotlin version from config
+    kotlin_config = config.get('kotlin', {})
+    kotlin_version = kotlin_config.get('version', '1.9.20')
+    
+    # Build variable dict
+    template_vars = {
+        # Project info
+        'project_name': inputs.get('project_name', 'MyApp'),
+        'project_name_clean': inputs.get('project_name', 'MyApp').replace(' ', '').replace('-', ''),
+        'package_name': inputs.get('package_name', 'com.example.myapp'),
+        'app_description': inputs.get('app_description', 'My Android Application'),
+        
+        # Build configuration
+        'language': inputs.get('language', 'kotlin'),
+        'language_ext': 'kt' if inputs.get('language') == 'kotlin' else 'java',
+        'gradle_dsl': inputs.get('gradle_dsl', 'kts'),
+        'gradle_version': resolved_gradle_version,
+        'jdk_version': jdk_ver,
+        'kotlin_version': kotlin_version,
+        
+        # SDK levels
+        'min_sdk': inputs.get('min_sdk', '21'),
+        'target_sdk': inputs.get('target_sdk', '35'),
+        'compile_sdk': config.get('compileSdk', 35),
+        
+        # Build info
+        'version_code': config.get('version_code', 1),
+        'version_name': config.get('version_name', '1.0.0'),
+        'build_tools_version': config.get('build_tools_version', '35.0.0'),
+        'android_gradle_plugin': config.get('android_gradle_plugin', '8.2.0'),
+        
+        # Author info
+        'author': inputs.get('author_name', 'Developer'),
+        'domain': inputs.get('company_domain', 'example.com'),
+        
+        # Dependencies
+        'androidx_appcompat': androidx.get('appcompat', '1.6.1'),
+        'androidx_constraint_layout': androidx.get('constraintLayout', '2.1.4'),
+        'androidx_material': androidx.get('material', '1.11.0'),
+        'androidx_lifecycle': androidx.get('lifecycle-runtime', '2.7.0'),
+        'androidx_activity': androidx.get('activity', '1.8.0'),
+        'androidx_fragment': androidx.get('fragment', '1.6.2'),
+        'material': config.get('dependencies', {}).get('google', {}).get('material', '1.11.0'),
+        'junit': testing.get('junit', '4.13.2'),
+        'androidx_test_ext_junit': androidx_test.get('ext-junit', '1.1.5'),
+        'androidx_test_espresso_core': androidx_test.get('espresso-core', '3.5.1'),
+    }
+    
+    return template_vars
+
 def normalize_jdk_version(version: str) -> str:
     """Convert JDK version to VERSION_X format"""
     return f"VERSION_{version}"
