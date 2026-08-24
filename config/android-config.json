@@ -3,7 +3,7 @@
   "packagePattern": "^[a-z][a-z0-9]*(\\.[a-z0-9]+)*$",
   "repoNamePattern": "^[a-z0-9]([a-z0-9-]*[a-z0-9])?$",
   "jdk": {
-    "versions": ["8", "11", "17", "21"],
+    "versions": ["8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21"],
     "default": "11",
     "lts": ["8", "11", "17", "21"]
   },
@@ -11,7 +11,14 @@
     "versions": {
       "latest": "8.5.0",
       "stable": "8.4.0",
-      "lts": "7.6.3"
+      "lts": "7.6.3",
+      "8.4": "8.4.0",
+      "8.3": "8.3.0",
+      "8.2": "8.2.1",
+      "8.1": "8.1.1",
+      "8.0": "8.0.2",
+      "7.6": "7.6.3",
+      "7.5": "7.5.1"
     },
     "default": "8.5.0",
     "wrapper_version": "8.5.0"
@@ -35,14 +42,18 @@
   "dependencies": {
     "androidx": {
       "appcompat": "1.6.1",
-      "constraint_layout": "2.1.4",
+      "constraintLayout": "2.1.4",
       "material": "1.11.0",
-      "lifecycle": "2.7.0"
+      "lifecycle-runtime": "2.7.0",
+      "activity": "1.8.0",
+      "fragment": "1.6.2"
     },
-    "junit": "4.13.2",
-    "androidx_test": {
-      "ext_junit": "1.1.5",
-      "espresso_core": "3.5.1"
+    "testing": {
+      "junit": "4.13.2"
+    },
+    "androidx-test": {
+      "ext-junit": "1.1.5",
+      "espresso-core": "3.5.1"
     }
   }
 }

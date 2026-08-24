@@ -71,6 +71,7 @@ def build_template_variables(inputs: dict, config: dict) -> Dict[str, Any]:
         'project_name_clean': inputs.get('project_name', 'MyApp').replace(' ', '').replace('-', ''),
         'package_name': inputs.get('package_name', 'com.example.myapp'),
         'app_description': inputs.get('app_description', 'My Android Application'),
+        'description': inputs.get('app_description', 'My Android Application'),
         
         # Build configuration
         'language': inputs.get('language', 'kotlin'),
