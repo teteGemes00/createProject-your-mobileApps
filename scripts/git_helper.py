@@ -146,6 +146,12 @@ class GitHelper:
                 env=env
             )
             logger.info(f"✅ Changes pushed to origin/{branch}")
+
+            # Tambahkan log lebih jelas di commit_and_push
+            # ...
+            subprocess.run(['git', 'add', '-A'], check=True, capture_output=True)
+            logger.info("✅ All files staged for commit")
+            # ...
             
             os.chdir(original_dir)
             return True
