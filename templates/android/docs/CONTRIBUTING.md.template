@@ -1,0 +1,65 @@
+# Contributing to {{ project_name }}
+
+Thank you for your interest in contributing!
+
+## Code of Conduct
+
+Be respectful and constructive in all interactions.
+
+## How to Contribute
+
+### 1. Fork & Clone
+
+```bash
+git clone https://github.com/{{ domain }}/{{ project_name }}.git
+cd {{ project_name }}
+```
+
+### 2. Create Feature Branch
+
+```bash
+git checkout -b feature/your-feature-name
+```
+
+### 3. Make Changes
+
+- Write clean, readable code
+- Follow Android conventions
+- Add tests for new features
+
+### 4. Commit & Push
+
+```bash
+git commit -m "feat: Add your feature description"
+git push origin feature/your-feature-name
+```
+
+### 5. Submit Pull Request
+
+- Describe your changes
+- Link related issues
+- Request review
+
+## Coding Standards
+
+- **Language**: {{ language }}
+- **Style**: Google Android Code Style
+- **Kotlin**: Ktlint rules
+- **Tests**: Minimum 80% coverage
+
+## Build & Test
+
+```bash
+# Build
+./gradlew build
+
+# Run tests
+./gradlew test
+
+# Check lint
+./gradlew lint
+```
+
+## Questions?
+
+Open an issue or reach out to maintainers.

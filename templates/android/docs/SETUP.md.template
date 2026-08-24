@@ -1,0 +1,79 @@
+# Setup Guide - {{ project_name }}
+
+## System Requirements
+
+- **OS**: macOS, Linux, or Windows
+- **JDK**: Version {{ jdk_version }} or higher
+- **Android Studio**: Latest stable version
+- **Gradle**: {{ gradle_version }}
+
+## Installation Steps
+
+### 1. Environment Setup
+
+```bash
+# Clone repository
+git clone <repository-url>
+cd {{ project_name }}
+
+# Set JAVA_HOME
+export JAVA_HOME=/path/to/jdk{{ jdk_version }}
+export PATH=$JAVA_HOME/bin:$PATH
+```
+
+### 2. Android SDK Setup
+
+1. Open Android Studio
+2. Go to SDK Manager
+3. Install API level {{ target_sdk }}
+4. Accept all licenses
+
+### 3. Build Project
+
+```bash
+# Build debug APK
+./gradlew assembleDebug
+
+# Build release APK
+./gradlew assembleRelease -Pandroid.injected.signing.store.file=keystore.jks
+```
+
+### 4. Run on Device/Emulator
+
+```bash
+# List connected devices
+adb devices
+
+# Install and run
+./gradlew installDebug
+./gradlew runDebug
+```
+
+## Troubleshooting
+
+### Gradle Sync Issues
+```bash
+./gradlew clean
+./gradlew sync
+```
+
+### Build Failures
+```bash
+# Check Java version
+java -version
+
+# Update Gradle wrapper
+./gradlew wrapper --gradle-version={{ gradle_version }}
+```
+
+## IDE Configuration
+
+### Android Studio
+1. File → Project Structure
+2. Set SDK to API {{ target_sdk }}
+3. Set JDK to version {{ jdk_version }}
+4. Sync project
+
+## Documentation
+
+See ARCHITECTURE.md for project structure details.
