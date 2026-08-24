@@ -1,0 +1,12 @@
+{
+  "defaultLanguage": "kotlin",
+  "defaultGradleDsl": "kts",
+  "defaultGradleVersion": "latest",
+  "defaultJdkVersion": "11",
+  "defaultMinSdk": 21,
+  "defaultTargetSdk": 35,
+  "defaultAuthor": "Developer",
+  "defaultDomain": "example.com",
+  "supportedLanguages": ["kotlin", "java"],
+  "supportedGradleDsl": ["kts", "groovy"]
+}

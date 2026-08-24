@@ -1,0 +1,41 @@
+{
+  "androidx": {
+    "appcompat": "1.6.1",
+    "constraintLayout": "2.1.4",
+    "material": "1.11.0",
+    "lifecycle": "2.7.0",
+    "lifecycle-runtime": "2.7.0",
+    "activity": "1.8.0",
+    "fragment": "1.6.2"
+  },
+  "google": {
+    "material": "1.11.0",
+    "gson": "2.10.1"
+  },
+  "testing": {
+    "junit": "4.13.2",
+    "junit-ktx": "1.1.5",
+    "mockito": "5.6.1",
+    "mockito-kotlin": "5.1.0"
+  },
+  "androidx-test": {
+    "ext-junit": "1.1.5",
+    "runner": "1.5.2",
+    "rules": "1.5.0",
+    "espresso-core": "3.5.1",
+    "espresso-contrib": "3.5.1",
+    "espresso-intents": "3.5.1"
+  },
+  "logging": {
+    "timber": "5.0.1"
+  },
+  "networking": {
+    "retrofit": "2.10.0",
+    "okhttp": "4.11.0",
+    "okhttp-logging-interceptor": "4.11.0"
+  },
+  "serialization": {
+    "moshi": "1.15.0",
+    "moshi-kotlin": "1.15.0"
+  }
+}

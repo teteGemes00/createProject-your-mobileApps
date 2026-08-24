@@ -1,0 +1,22 @@
+{
+  "latest": "8.5.0",
+  "stable": "8.4.0",
+  "lts": "7.6.3",
+  "versions": {
+    "8.5.0": {
+      "description": "Latest Gradle version",
+      "releaseDate": "2023-11-29",
+      "minJdk": 8
+    },
+    "8.4.0": {
+      "description": "Stable Gradle version",
+      "releaseDate": "2023-10-04",
+      "minJdk": 8
+    },
+    "7.6.3": {
+      "description": "LTS Gradle version",
+      "releaseDate": "2023-06-21",
+      "minJdk": 8
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "lts": ["8", "11", "17", "21"],
+  "all": ["8", "11", "17", "18", "19", "20", "21"],
+  "default": "11",
+  "versions": {
+    "8": {
+      "description": "Java 8 LTS",
+      "releaseDate": "2014-03-18",
+      "lts": true,
+      "eol": "2030-12-31"
+    },
+    "11": {
+      "description": "Java 11 LTS",
+      "releaseDate": "2018-09-25",
+      "lts": true,
+      "eol": "2026-09-30"
+    },
+    "17": {
+      "description": "Java 17 LTS",
+      "releaseDate": "2021-09-14",
+      "lts": true,
+      "eol": "2029-09-30"
+    },
+    "21": {
+      "description": "Java 21 LTS",
+      "releaseDate": "2023-09-19",
+      "lts": true,
+      "eol": "2031-09-30"
+    }
+  }
+}
