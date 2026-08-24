@@ -121,14 +121,16 @@ class ProjectGenerator:
             )
             logger.info(f"✅ Project templates generated")
             
-            # ...
             # Generate workflows
             logger.info("Generating CI/CD workflows...")
             wf_gen = WorkflowGenerator()
             workflows_path = Path(repo_dir) / '.github' / 'workflows'
-            wf_gen.generate_all(str(workflows_path), template_vars)
+            workflows_path.mkdir(parents=True, exist_ok=True)
+            processor.process_workflow_templates(
+                output_path=str(workflows_path),
+                variables=template_vars
+            )
             logger.info(f"✅ Workflows generated")
-            # ...
             
             # Step 7: Commit and push
             logger.info("\n[Step 7/7] Committing and pushing changes...")
