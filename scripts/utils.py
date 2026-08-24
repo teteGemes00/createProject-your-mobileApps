@@ -71,6 +71,7 @@ def build_template_variables(inputs: dict, config: dict) -> Dict[str, Any]:
         'project_name_clean': inputs.get('project_name', 'MyApp').replace(' ', '').replace('-', ''),
         'package_name': inputs.get('package_name', 'com.example.myapp'),
         'app_description': inputs.get('app_description', 'My Android Application'),
+        'description': inputs.get('app_description', 'My Android Application'),
         
         # Build configuration
         'language': inputs.get('language', 'kotlin'),
@@ -94,6 +95,10 @@ def build_template_variables(inputs: dict, config: dict) -> Dict[str, Any]:
         # Author info
         'author': inputs.get('author_name', 'Developer'),
         'domain': inputs.get('company_domain', 'example.com'),
+        
+        # GitHub info
+        'github': inputs.get('github_actor', 'developer'),
+        'github_actor': inputs.get('github_actor', 'developer'),
         
         # Dependencies
         'androidx_appcompat': androidx.get('appcompat', '1.6.1'),
