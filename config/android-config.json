@@ -1,0 +1,48 @@
+{
+  "projectNamePattern": "^[a-zA-Z0-9\\s-]+$",
+  "packagePattern": "^[a-z][a-z0-9]*(\\.[a-z0-9]+)*$",
+  "repoNamePattern": "^[a-z0-9]([a-z0-9-]*[a-z0-9])?$",
+  "jdk": {
+    "versions": ["8", "11", "17", "21"],
+    "default": "11",
+    "lts": ["8", "11", "17", "21"]
+  },
+  "gradle": {
+    "versions": {
+      "latest": "8.5.0",
+      "stable": "8.4.0",
+      "lts": "7.6.3"
+    },
+    "default": "8.5.0",
+    "wrapper_version": "8.5.0"
+  },
+  "kotlin": {
+    "version": "1.9.20",
+    "gradle_plugin_version": "1.9.20-1.0.14"
+  },
+  "sdk": {
+    "min_api": 21,
+    "target_api": 35,
+    "compile_api": 35
+  },
+  "android_gradle_plugin": "8.2.0",
+  "compileSdk": 35,
+  "targetSdk": 35,
+  "minSdk": 21,
+  "version_code": 1,
+  "version_name": "1.0.0",
+  "build_tools_version": "35.0.0",
+  "dependencies": {
+    "androidx": {
+      "appcompat": "1.6.1",
+      "constraint_layout": "2.1.4",
+      "material": "1.11.0",
+      "lifecycle": "2.7.0"
+    },
+    "junit": "4.13.2",
+    "androidx_test": {
+      "ext_junit": "1.1.5",
+      "espresso_core": "3.5.1"
+    }
+  }
+}
