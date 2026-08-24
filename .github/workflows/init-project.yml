@@ -138,8 +138,7 @@ on:
         default: 'example.com'
 
 permissions:
-  contents: write
-  repository-projects: write
+  contents: read
 
 jobs:
   create-project:
@@ -173,7 +172,7 @@ jobs:
           INPUT_TARGET_SDK: ${{ inputs.target_sdk }}
           INPUT_AUTHOR: ${{ inputs.author_name }}
           INPUT_DOMAIN: ${{ inputs.company_domain }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           GITHUB_ACTOR: ${{ github.actor }}
       
       - name: Project Creation Report
