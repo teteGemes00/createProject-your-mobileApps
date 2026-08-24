@@ -1,0 +1,24 @@
+# ProGuard Advanced Configuration
+# Additional rules for better optimization
+
+# Preserve class names for reflection
+-keepnames class ** { *; }
+
+# Preserve enums
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+# Keep native methods
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+
+# Preserve constructors
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet);
+}
+
+# Keep custom annotations
+-keepattributes *Annotation*

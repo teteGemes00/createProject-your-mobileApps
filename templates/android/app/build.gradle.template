@@ -1,0 +1,53 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
+
+android {
+    namespace '{{ package_name }}.app'
+    compileSdk {{ compile_sdk }}
+
+    defaultConfig {
+        minSdk {{ min_sdk }}
+        targetSdk {{ target_sdk }}
+        versionCode {{ version_code }}
+        versionName '{{ version_name }}'
+
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_{{ jdk_version }}
+        targetCompatibility JavaVersion.VERSION_{{ jdk_version }}
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+    // AndroidX
+    implementation 'androidx.appcompat:appcompat:{{ androidx_appcompat }}'
+    implementation 'androidx.constraintlayout:constraintlayout:{{ androidx_constraint_layout }}'
+    implementation 'com.google.android.material:material:{{ material }}'
+    implementation 'androidx.lifecycle:lifecycle-runtime:{{ androidx_lifecycle }}'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:{{ androidx_lifecycle }}'
+    implementation 'androidx.activity:activity:{{ androidx_activity }}'
+    implementation 'androidx.fragment:fragment:{{ androidx_fragment }}'
+
+    // Testing
+    testImplementation 'junit:junit:{{ junit }}'
+    androidTestImplementation 'androidx.test.ext:junit:{{ androidx_test_ext_junit }}'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:{{ androidx_test_espresso_core }}'
+}

@@ -1,0 +1,19 @@
+package {{ package_name }};
+
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+
+/**
+ * {{ project_name }} - MainActivity
+ * 
+ * Created by: {{ author }}
+ * Company: {{ domain }}
+ */
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+}
