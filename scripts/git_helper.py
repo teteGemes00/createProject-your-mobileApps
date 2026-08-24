@@ -30,7 +30,7 @@ class GitHelper:
         """Create GitHub repository"""
         if not self.github:
             logger.warning("GitHub API not available")
-            return {'success': False, 'error': 'GitHub API not available'}
+            return {'success': False, 'error': 'GitHub API not available. Please ensure PyGithub is installed.'}
         
         try:
             logger.info(f"Creating repository: {repo_name}")
@@ -39,11 +39,11 @@ class GitHelper:
             repo = user.create_repo(
                 name=repo_name,
                 description=description,
-                private=True,
+                private=False,
                 auto_init=True
             )
             
-            logger.info(f"Repository created: {repo.html_url}")
+            logger.info(f"✅ Repository created: {repo.html_url}")
             return {
                 'success': True,
                 'repo_url': repo.html_url,
@@ -51,8 +51,8 @@ class GitHelper:
                 'repo_name': repo.name
             }
         except Exception as e:
-            logger.error(f"Failed to create repository: {str(e)}")
-            return {'success': False, 'error': str(e)}
+            logger.error(f"❌ Failed to create repository: {str(e)}")
+            return {'success': False, 'error': f"GitHub API Error: {str(e)}"}
     
     def config_git(self, email: str = None, username: str = None):
         """Configure git"""
@@ -62,43 +62,67 @@ class GitHelper:
             username = self.actor
         
         try:
-            subprocess.run(['git', 'config', '--global', 'user.email', email], check=True)
-            subprocess.run(['git', 'config', '--global', 'user.name', username], check=True)
-            logger.info(f"Git configured: {username}")
+            subprocess.run(['git', 'config', '--global', 'user.email', email], check=True, capture_output=True)
+            subprocess.run(['git', 'config', '--global', 'user.name', username], check=True, capture_output=True)
+            logger.info(f"✅ Git configured: {username} <{email}>")
         except subprocess.CalledProcessError as e:
-            logger.error(f"Failed to configure git: {str(e)}")
+            logger.error(f"❌ Failed to configure git: {str(e)}")
             raise
     
     def clone_repo(self, clone_url: str, target_path: str) -> bool:
         """Clone repository"""
         try:
-            logger.info("Cloning repository...")
-            subprocess.run(
+            logger.info(f"Cloning repository from: {clone_url}")
+            result = subprocess.run(
                 ['git', 'clone', clone_url, target_path],
                 check=True,
-                capture_output=True
+                capture_output=True,
+                text=True
             )
-            logger.info(f"Repository cloned")
+            logger.info(f"✅ Repository cloned to: {target_path}")
             return True
         except subprocess.CalledProcessError as e:
-            logger.error(f"Failed to clone: {str(e)}")
+            logger.error(f"❌ Failed to clone: {e.stderr}")
             return False
     
     def commit_and_push(self, repo_path: str, message: str, branch: str = 'main') -> bool:
         """Commit and push changes"""
         try:
+            original_dir = os.getcwd()
             os.chdir(repo_path)
             
-            subprocess.run(['git', 'add', '-A'], check=True)
-            logger.info("Files added")
+            # Check if there are changes
+            status_result = subprocess.run(
+                ['git', 'status', '--porcelain'],
+                capture_output=True,
+                text=True,
+                check=True
+            )
             
-            subprocess.run(['git', 'commit', '-m', message], check=True)
-            logger.info("Changes committed")
+            if not status_result.stdout.strip():
+                logger.info("⚠️ No changes to commit")
+                os.chdir(original_dir)
+                return True
             
-            subprocess.run(['git', 'push', 'origin', branch], check=True)
-            logger.info(f"Changes pushed to {branch}")
+            # Add all files
+            subprocess.run(['git', 'add', '-A'], check=True, capture_output=True)
+            logger.info("✅ Files added")
             
+            # Commit
+            subprocess.run(['git', 'commit', '-m', message], check=True, capture_output=True)
+            logger.info(f"✅ Changes committed with message: '{message}'")
+            
+            # Push
+            subprocess.run(['git', 'push', 'origin', branch], check=True, capture_output=True)
+            logger.info(f"✅ Changes pushed to origin/{branch}")
+            
+            os.chdir(original_dir)
             return True
         except subprocess.CalledProcessError as e:
-            logger.error(f"Failed to commit/push: {str(e)}")
+            logger.error(f"❌ Failed to commit/push: {str(e)}")
+            os.chdir(original_dir)
+            return False
+        except Exception as e:
+            logger.error(f"❌ Unexpected error during commit/push: {str(e)}")
+            os.chdir(original_dir)
             return False
