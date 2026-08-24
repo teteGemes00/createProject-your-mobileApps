@@ -13,7 +13,7 @@ from template_processor import TemplateProcessor
 from project_builder import ProjectBuilder
 from git_helper import GitHelper
 from workflow_generator import WorkflowGenerator
-from utils import load_json_config
+from utils import load_json_config, build_template_variables
 
 logger = logging.getLogger(__name__)
 
@@ -35,6 +35,12 @@ class ProjectGenerator:
             if not is_valid:
                 return {'success': False, 'error': message}
             
+            # Validate GitHub token
+            github_token = self.inputs.get('github_token', '').strip()
+            if not github_token:
+                logger.error("GitHub token is required")
+                return {'success': False, 'error': 'GitHub token is missing or empty'}
+            
             self.temp_dir = tempfile.mkdtemp(prefix='android_project_')
             logger.info(f"Temp directory: {self.temp_dir}")
             
@@ -42,7 +48,7 @@ class ProjectGenerator:
             builder.create_directory_structure()
             
             git = GitHelper(
-                token=self.inputs.get('github_token', ''),
+                token=github_token,
                 actor=self.inputs.get('github_actor', 'developer')
             )
             git.config_git()
@@ -63,6 +69,10 @@ class ProjectGenerator:
             logger.info("Generating project files...")
             processor = TemplateProcessor()
             
+            # Build template variables
+            template_vars = build_template_variables(self.inputs, self.config)
+            logger.info(f"Template variables prepared: {len(template_vars)} variables loaded")
+            
             logger.info("Generating workflows...")
             wf_gen = WorkflowGenerator()
             
@@ -72,7 +82,7 @@ class ProjectGenerator:
                 message=f"chore: Initialize Android Project - {self.inputs['project_name']}"
             )
             
-            logger.info("Generation completed!")
+            logger.info("Generation completed successfully!")
             
             return {
                 'success': True,
