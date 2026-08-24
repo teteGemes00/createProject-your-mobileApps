@@ -43,12 +43,16 @@ class GitHelper:
                 auto_init=True
             )
             
-            logger.info(f"✅ Repository created: {repo.html_url}")
+            # Query actual default branch after creation
+            default_branch = repo.default_branch or 'main'
+            
+            logger.info(f"✅ Repository created: {repo.html_url} (default branch: {default_branch})")
             return {
                 'success': True,
                 'repo_url': repo.html_url,
                 'repo_clone_url': repo.clone_url,
-                'repo_name': repo.name
+                'repo_name': repo.name,
+                'default_branch': default_branch,
             }
         except Exception as e:
             logger.error(f"❌ Failed to create repository: {str(e)}")

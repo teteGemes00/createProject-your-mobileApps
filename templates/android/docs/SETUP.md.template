@@ -13,10 +13,10 @@
 
 ```bash
 # Clone repository
-git clone <repository-url>
-cd {{ project_name }}
+git clone https://github.com/{{ github_actor }}/{{ target_repo }}.git
+cd {{ target_repo }}
 
-# Set JAVA_HOME
+# Set JAVA_HOME (if not already set)
 export JAVA_HOME=/path/to/jdk{{ jdk_version }}
 export PATH=$JAVA_HOME/bin:$PATH
 ```
@@ -35,7 +35,7 @@ export PATH=$JAVA_HOME/bin:$PATH
 ./gradlew assembleDebug
 
 # Build release APK
-./gradlew assembleRelease -Pandroid.injected.signing.store.file=keystore.jks
+./gradlew assembleRelease
 ```
 
 ### 4. Run on Device/Emulator
@@ -44,35 +44,33 @@ export PATH=$JAVA_HOME/bin:$PATH
 # List connected devices
 adb devices
 
-# Install and run
+# Install debug APK
 ./gradlew installDebug
-./gradlew runDebug
 ```
 
 ## Troubleshooting
 
-### Gradle Sync Issues
+### Gradle Build Issues
 ```bash
-./gradlew clean
-./gradlew sync
+./gradlew clean assembleDebug
 ```
 
-### Build Failures
+### Run Tests
 ```bash
-# Check Java version
-java -version
+# Unit tests
+./gradlew test
 
-# Update Gradle wrapper
-./gradlew wrapper --gradle-version={{ gradle_version }}
+# Instrumented tests
+./gradlew connectedAndroidTest
 ```
 
 ## IDE Configuration
 
 ### Android Studio
-1. File → Project Structure
-2. Set SDK to API {{ target_sdk }}
-3. Set JDK to version {{ jdk_version }}
-4. Sync project
+1. File → Open → select the project directory
+2. Let Gradle sync complete
+3. Set SDK to API {{ target_sdk }} in File → Project Structure
+4. Run the app on a device or emulator
 
 ## Documentation
 

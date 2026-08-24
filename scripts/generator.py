@@ -104,6 +104,7 @@ class ProjectGenerator:
             logger.info("Creating project structure inside cloned repo...")
             builder = ProjectBuilder(repo_dir, self.inputs)
             builder.create_directory_structure()
+            builder.create_gradle_wrapper()
             logger.info(f"✅ Project directory structure created")
             
             # Step 6: Render and process templates
@@ -136,7 +137,8 @@ class ProjectGenerator:
             logger.info("\n[Step 7/7] Committing and pushing changes...")
             push_success = git.commit_and_push(
                 repo_path=repo_dir,
-                message=f"chore: Initialize Android Project - {self.inputs['project_name']}"
+                message=f"chore: Initialize Android Project - {self.inputs['project_name']}",
+                branch=repo_result.get('default_branch', 'main')
             )
             
             if not push_success:

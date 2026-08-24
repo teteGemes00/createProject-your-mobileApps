@@ -84,7 +84,7 @@ def build_template_variables(inputs: dict, config: dict) -> Dict[str, Any]:
         # SDK levels
         'min_sdk': inputs.get('min_sdk', '21'),
         'target_sdk': inputs.get('target_sdk', '35'),
-        'compile_sdk': config.get('compileSdk', 35),
+        'compile_sdk': int(inputs.get('target_sdk', config.get('compileSdk', 35))),
         
         # Build info
         'version_code': config.get('version_code', 1),
@@ -99,6 +99,7 @@ def build_template_variables(inputs: dict, config: dict) -> Dict[str, Any]:
         # GitHub info
         'github': inputs.get('github_actor', 'developer'),
         'github_actor': inputs.get('github_actor', 'developer'),
+        'target_repo': inputs.get('target_repo', 'my-app'),
         
         # Dependencies
         'androidx_appcompat': androidx.get('appcompat', '1.6.1'),

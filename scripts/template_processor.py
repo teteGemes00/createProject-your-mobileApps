@@ -5,7 +5,7 @@ Template processing and rendering with Jinja2
 import logging
 from pathlib import Path
 from typing import Dict, Any, List
-from jinja2 import Environment, FileSystemLoader, select_autoescape
+from jinja2 import Environment, FileSystemLoader, select_autoescape, StrictUndefined
 from utils import save_file, format_package_path
 
 logger = logging.getLogger(__name__)
@@ -99,6 +99,28 @@ class TemplateProcessor:
                 ('android/root/local.properties.template', 
                  f'{output_base_path}/local.properties'),
                 
+                # Launcher icons
+                ('android/app/src/main/res/mipmap/ic_launcher.xml.template',
+                 f'{output_base_path}/app/src/main/res/mipmap-mdpi/ic_launcher.xml'),
+                ('android/app/src/main/res/mipmap/ic_launcher.xml.template',
+                 f'{output_base_path}/app/src/main/res/mipmap-hdpi/ic_launcher.xml'),
+                ('android/app/src/main/res/mipmap/ic_launcher.xml.template',
+                 f'{output_base_path}/app/src/main/res/mipmap-xhdpi/ic_launcher.xml'),
+                ('android/app/src/main/res/mipmap/ic_launcher.xml.template',
+                 f'{output_base_path}/app/src/main/res/mipmap-xxhdpi/ic_launcher.xml'),
+                ('android/app/src/main/res/mipmap/ic_launcher.xml.template',
+                 f'{output_base_path}/app/src/main/res/mipmap-xxxhdpi/ic_launcher.xml'),
+                ('android/app/src/main/res/mipmap/ic_launcher_round.xml.template',
+                 f'{output_base_path}/app/src/main/res/mipmap-mdpi/ic_launcher_round.xml'),
+                ('android/app/src/main/res/mipmap/ic_launcher_round.xml.template',
+                 f'{output_base_path}/app/src/main/res/mipmap-hdpi/ic_launcher_round.xml'),
+                ('android/app/src/main/res/mipmap/ic_launcher_round.xml.template',
+                 f'{output_base_path}/app/src/main/res/mipmap-xhdpi/ic_launcher_round.xml'),
+                ('android/app/src/main/res/mipmap/ic_launcher_round.xml.template',
+                 f'{output_base_path}/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.xml'),
+                ('android/app/src/main/res/mipmap/ic_launcher_round.xml.template',
+                 f'{output_base_path}/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.xml'),
+                
                 # Documentation
                 ('android/docs/README.md.template', 
                  f'{output_base_path}/README.md'),
@@ -153,10 +175,7 @@ class TemplateProcessor:
             ]
             
             for template_path, output_file_path in workflow_mappings:
-                try:
-                    self.save_rendered_file(template_path, output_file_path, variables)
-                except Exception as e:
-                    logger.warning(f"⚠️ Skipping {template_path}: {str(e)}")
+                self.save_rendered_file(template_path, output_file_path, variables)
             
             logger.info(f"✅ Workflow templates processed!")
             return True
