@@ -1,7 +1,7 @@
 {
   "projectNamePattern": "^[a-zA-Z0-9\\s-]+$",
   "packagePattern": "^[a-z][a-z0-9]*(\\.[a-z0-9]+)*$",
-  "repoNamePattern": "^[a-z0-9]([a-z0-9-]*[a-z0-9])?$",
+  "repoNamePattern": "^[a-zA-Z0-9_-]+$",
   "jdk": {
     "versions": ["8", "11", "17", "21"],
     "default": "11",
