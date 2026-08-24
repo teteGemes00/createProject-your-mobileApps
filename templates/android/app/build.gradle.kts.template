@@ -1,13 +1,16 @@
+// App module Gradle build file (KTS)
+
 plugins {
-    id 'com.android.library'
+    id 'com.android.application'
     id 'kotlin-android'
 }
 
 android {
-    namespace '{{ package_name }}.app'
+    namespace '{{ package_name }}'
     compileSdk {{ compile_sdk }}
 
     defaultConfig {
+        applicationId '{{ package_name }}'
         minSdk {{ min_sdk }}
         targetSdk {{ target_sdk }}
         versionCode {{ version_code }}
@@ -18,23 +21,20 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-        debug {
-            minifyEnabled false
-        }
     }
-
+    
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_{{ jdk_version }}
         targetCompatibility JavaVersion.VERSION_{{ jdk_version }}
     }
-
+    
     kotlinOptions {
         jvmTarget = '{{ jdk_version }}'
     }
-
+    
     buildFeatures {
         viewBinding true
     }
