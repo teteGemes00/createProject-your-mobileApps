@@ -11,8 +11,8 @@ Be respectful and constructive in all interactions.
 ### 1. Fork & Clone
 
 ```bash
-git clone https://github.com/{{ domain }}/{{ project_name }}.git
-cd {{ project_name }}
+git clone https://github.com/{{ github_actor }}/{{ target_repo }}.git
+cd {{ target_repo }}
 ```
 
 ### 2. Create Feature Branch
@@ -44,14 +44,12 @@ git push origin feature/your-feature-name
 
 - **Language**: {{ language }}
 - **Style**: Google Android Code Style
-- **Kotlin**: Ktlint rules
-- **Tests**: Minimum 80% coverage
 
 ## Build & Test
 
 ```bash
 # Build
-./gradlew build
+./gradlew assembleDebug
 
 # Run tests
 ./gradlew test

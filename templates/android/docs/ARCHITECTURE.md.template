@@ -3,46 +3,27 @@
 ## Project Structure
 
 ```
-{{ package_name }}/
-├── MainActivity.{{ language_ext }}
-├── ui/
-│   ├── activities/
-│   ├── fragments/
-│   └── adapters/
-├── data/
-│   ├── models/
-│   ├── repositories/
-│   └── local/
-├── utils/
-│   ├── Constants.{{ language_ext }}
-│   └── Extensions.{{ language_ext }}
-└── di/
-    └── AppModule.{{ language_ext }}
+{{ project_name }}/
+├── app/
+│   └── src/
+│       └── main/
+│           ├── java/{{ package_name }}/
+│           │   └── MainActivity.{{ language_ext }}
+│           ├── res/
+│           │   ├── layout/
+│           │   ├── values/
+│           │   └── mipmap-*/
+│           └── AndroidManifest.xml
+├── gradle/
+│   └── wrapper/
+├── build.gradle
+└── settings.gradle
 ```
 
 ## Core Components
 
-### Activities
-Main UI components that interact with users.
-
-### Fragments  
-Reusable UI components for activity layouts.
-
-### ViewModels
-Manage UI-related data and handle lifecycle.
-
-### Repositories
-Abstract data sources (local/remote).
-
-### Models
-Data classes representing API responses.
-
-## Design Patterns
-
-- **MVVM**: Model-View-ViewModel architecture
-- **Repository Pattern**: Data layer abstraction
-- **Dependency Injection**: Using Hilt
-- **Coroutines**: Async operations
+### MainActivity
+The single entry-point Activity for the application.
 
 ## Build Configuration
 
@@ -50,20 +31,13 @@ Data classes representing API responses.
 - **Target SDK**: {{ target_sdk }}
 - **Compile SDK**: {{ compile_sdk }}
 - **JDK**: {{ jdk_version }}
+- **Language**: {{ language }}
 
 ## Dependencies
 
-See `build.gradle` for complete dependency list.
+See `app/build.gradle` for the complete dependency list.
 
 ## Testing
 
-- Unit tests: `src/test/`
-- Instrumented tests: `src/androidTest/`
-- Minimum coverage: 80%
-
-## Performance Considerations
-
-- Use ViewBinding for UI
-- Lazy-load resources
-- Cache API responses
-- Optimize database queries
+- Unit tests: `app/src/test/`
+- Instrumented tests: `app/src/androidTest/`
