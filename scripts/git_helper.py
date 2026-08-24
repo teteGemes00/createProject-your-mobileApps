@@ -73,11 +73,17 @@ class GitHelper:
         """Clone repository"""
         try:
             logger.info(f"Cloning repository from: {clone_url}")
+            
+            # Use token in clone URL for authentication
+            if self.token and 'https://' in clone_url:
+                clone_url = clone_url.replace('https://', f'https://{self.actor}:{self.token}@')
+            
             result = subprocess.run(
                 ['git', 'clone', clone_url, target_path],
                 check=True,
                 capture_output=True,
-                text=True
+                text=True,
+                env={**os.environ, 'GIT_TERMINAL_PROMPT': '0'}
             )
             logger.info(f"✅ Repository cloned to: {target_path}")
             return True
@@ -112,14 +118,40 @@ class GitHelper:
             subprocess.run(['git', 'commit', '-m', message], check=True, capture_output=True)
             logger.info(f"✅ Changes committed with message: '{message}'")
             
-            # Push
-            subprocess.run(['git', 'push', 'origin', branch], check=True, capture_output=True)
+            # Check current branch
+            branch_result = subprocess.run(
+                ['git', 'rev-parse', '--abbrev-ref', 'HEAD'],
+                capture_output=True,
+                text=True,
+                check=True
+            )
+            current_branch = branch_result.stdout.strip()
+            logger.info(f"Current branch: {current_branch}")
+            
+            # If we're on a detached HEAD, checkout the target branch first
+            if current_branch == 'HEAD':
+                logger.info(f"Checking out branch: {branch}")
+                subprocess.run(['git', 'checkout', '-b', branch], check=True, capture_output=True)
+            
+            # Push with token authentication
+            env = os.environ.copy()
+            if self.token:
+                env['GIT_ASKPASS'] = ''
+                env['GIT_TERMINAL_PROMPT'] = '0'
+            
+            subprocess.run(
+                ['git', 'push', 'origin', branch],
+                check=True,
+                capture_output=True,
+                env=env
+            )
             logger.info(f"✅ Changes pushed to origin/{branch}")
             
             os.chdir(original_dir)
             return True
         except subprocess.CalledProcessError as e:
             logger.error(f"❌ Failed to commit/push: {str(e)}")
+            logger.error(f"Error details: {e.stderr if e.stderr else 'No stderr'}")
             os.chdir(original_dir)
             return False
         except Exception as e:
