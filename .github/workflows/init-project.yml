@@ -1,0 +1,183 @@
+name: Initialize Android Project
+
+on:
+  workflow_dispatch:
+    inputs:
+      project_name:
+        description: 'Project Name (e.g., MyApp, WeatherApp)'
+        required: true
+        default: 'MyApp'
+      
+      package_name:
+        description: 'Package Name (e.g., com.company.myapp)'
+        required: true
+        default: 'com.example.myapp'
+      
+      target_repo_name:
+        description: 'Target Repository Name (e.g., my-awesome-app)'
+        required: true
+      
+      app_description:
+        description: 'Application Description (Optional)'
+        required: false
+        default: 'My Android Application'
+      
+      language:
+        description: 'Programming Language'
+        required: true
+        default: 'kotlin'
+        type: choice
+        options:
+          - kotlin
+          - java
+      
+      gradle_dsl:
+        description: 'Gradle Build Script Language'
+        required: true
+        default: 'kts'
+        type: choice
+        options:
+          - kts
+          - groovy
+      
+      gradle_version:
+        description: 'Gradle Version'
+        required: true
+        default: 'latest'
+        type: choice
+        options:
+          - 'latest'
+          - '8.4'
+          - '8.3'
+          - '8.2'
+          - '8.1'
+          - '8.0'
+          - '7.6'
+          - '7.5'
+      
+      jdk_version:
+        description: 'JDK Version'
+        required: true
+        default: '11'
+        type: choice
+        options:
+          - '8'
+          - '9'
+          - '10'
+          - '11'
+          - '12'
+          - '13'
+          - '14'
+          - '15'
+          - '16'
+          - '17'
+          - '18'
+          - '19'
+          - '20'
+          - '21'
+      
+      min_sdk:
+        description: 'Minimum SDK Level'
+        required: true
+        default: '21'
+        type: choice
+        options:
+          - '9'
+          - '10'
+          - '11'
+          - '12'
+          - '13'
+          - '14'
+          - '15'
+          - '16'
+          - '17'
+          - '18'
+          - '19'
+          - '20'
+          - '21'
+          - '22'
+          - '23'
+          - '24'
+          - '25'
+          - '26'
+          - '27'
+          - '28'
+          - '29'
+          - '30'
+          - '31'
+          - '32'
+          - '33'
+          - '34'
+          - '35'
+          - '36'
+      
+      target_sdk:
+        description: 'Target SDK Level'
+        required: true
+        default: '35'
+        type: choice
+        options:
+          - '28'
+          - '29'
+          - '30'
+          - '31'
+          - '32'
+          - '33'
+          - '34'
+          - '35'
+          - '36'
+      
+      author_name:
+        description: 'Author Name'
+        required: true
+        default: 'Developer'
+      
+      company_domain:
+        description: 'Company Domain (e.g., example.com)'
+        required: true
+        default: 'example.com'
+
+permissions:
+  contents: write
+  repository-projects: write
+
+jobs:
+  create-project:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout createProject-your-mobileApps
+        uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Install Python Dependencies
+        run: pip install -r requirements.txt
+      
+      - name: Generate Android Project
+        run: python scripts/main.py
+        env:
+          INPUT_PROJECT_NAME: ${{ inputs.project_name }}
+          INPUT_PACKAGE_NAME: ${{ inputs.package_name }}
+          INPUT_TARGET_REPO: ${{ inputs.target_repo_name }}
+          INPUT_APP_DESCRIPTION: ${{ inputs.app_description }}
+          INPUT_LANGUAGE: ${{ inputs.language }}
+          INPUT_GRADLE_DSL: ${{ inputs.gradle_dsl }}
+          INPUT_GRADLE_VERSION: ${{ inputs.gradle_version }}
+          INPUT_JDK_VERSION: ${{ inputs.jdk_version }}
+          INPUT_MIN_SDK: ${{ inputs.min_sdk }}
+          INPUT_TARGET_SDK: ${{ inputs.target_sdk }}
+          INPUT_AUTHOR: ${{ inputs.author_name }}
+          INPUT_DOMAIN: ${{ inputs.company_domain }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
+      
+      - name: Project Creation Report
+        if: success()
+        run: |
+          echo "✅ Android Project created successfully!"
+          echo "Repository: https://github.com/${{ github.actor }}/${{ inputs.target_repo_name }}"
