@@ -52,21 +52,17 @@ class ProjectGenerator:
                 return {'success': False, 'error': 'GitHub token is missing or empty. Please provide GITHUB_TOKEN'}
             logger.info(f"✅ GitHub token validated")
             
-            # Step 3: Create temp directory and project structure
-            logger.info("\n[Step 3/7] Creating project structure...")
+            # Step 3: Create temp directory
+            logger.info("\n[Step 3/7] Setting up temp workspace...")
             self.temp_dir = tempfile.mkdtemp(prefix='android_project_')
             logger.info(f"Temp directory created: {self.temp_dir}")
-            
-            builder = ProjectBuilder(self.temp_dir, self.inputs)
-            builder.create_directory_structure()
-            logger.info(f"✅ Project directory structure created")
             
             # Step 4: Build template variables
             logger.info("\n[Step 4/7] Building template variables...")
             template_vars = build_template_variables(self.inputs, self.config)
             logger.info(f"✅ Template variables prepared ({len(template_vars)} variables)")
             
-            # Step 5: GitHub operations - Create repo and push
+            # Step 5: GitHub operations - Create repo and clone
             logger.info("\n[Step 5/7] Setting up GitHub repository...")
             
             git = GitHelper(
@@ -90,11 +86,12 @@ class ProjectGenerator:
             logger.info(f"✅ Repository created: {repo_result['repo_url']}")
             self.repo_path = repo_result['repo_clone_url']
             
-            # Clone repository
+            # Clone repository into a subdirectory inside temp_dir
+            repo_dir = str(Path(self.temp_dir) / 'repo')
             logger.info("Cloning repository...")
             clone_success = git.clone_repo(
                 clone_url=repo_result['repo_clone_url'],
-                target_path=self.temp_dir
+                target_path=repo_dir
             )
             
             if not clone_success:
@@ -102,6 +99,12 @@ class ProjectGenerator:
                 return {'success': False, 'error': 'Failed to clone repository'}
             
             logger.info(f"✅ Repository cloned successfully")
+            
+            # Now create project structure inside the cloned repo
+            logger.info("Creating project structure inside cloned repo...")
+            builder = ProjectBuilder(repo_dir, self.inputs)
+            builder.create_directory_structure()
+            logger.info(f"✅ Project directory structure created")
             
             # Step 6: Render and process templates
             logger.info("\n[Step 6/7] Generating project files from templates...")
@@ -112,7 +115,7 @@ class ProjectGenerator:
             
             # Process project templates
             processor.process_project_templates(
-                output_base_path=self.temp_dir,
+                output_base_path=repo_dir,
                 variables=template_vars,
                 gradle_dsl=gradle_dsl
             )
@@ -121,7 +124,7 @@ class ProjectGenerator:
             # Generate workflows
             logger.info("Generating CI/CD workflows...")
             wf_gen = WorkflowGenerator()
-            workflows_path = Path(self.temp_dir) / '.github' / 'workflows'
+            workflows_path = Path(repo_dir) / '.github' / 'workflows'
             workflows_path.mkdir(parents=True, exist_ok=True)
             processor.process_workflow_templates(
                 output_path=str(workflows_path),
@@ -132,7 +135,7 @@ class ProjectGenerator:
             # Step 7: Commit and push
             logger.info("\n[Step 7/7] Committing and pushing changes...")
             push_success = git.commit_and_push(
-                repo_path=self.temp_dir,
+                repo_path=repo_dir,
                 message=f"chore: Initialize Android Project - {self.inputs['project_name']}"
             )
             
