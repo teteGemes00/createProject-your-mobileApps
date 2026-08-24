@@ -1,0 +1,46 @@
+# {{ project_name }} - Git Ignore
+# {{ description }}
+
+# Gradle files
+.gradle/
+build/
+*.apk
+*.aar
+*.ap_
+*.aab
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Log/OS Files
+*.log
+.DS_Store
+Thumbs.db
+
+# Android Studio
+.idea/
+.cxx
+.gradle
+*.iml
+*.iws
+*.ipr
+*.swp
+*.swo
+*~
+
+# Java/Kotlin
+*.class
+*.jar
+*.war
+*.aar
+*.jmod
+*.jks
+*.keystore
+
+# Lint
+lint-results*.xml
+lint-results*.html
+
+# Output
+out/
+rel/
