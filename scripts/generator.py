@@ -49,7 +49,10 @@ class ProjectGenerator:
             github_token = self.inputs.get('github_token', '').strip()
             if not github_token:
                 logger.error("GitHub token is required but not provided")
-                return {'success': False, 'error': 'GitHub token is missing or empty. Please provide GITHUB_TOKEN'}
+                return {
+                    'success': False,
+                    'error': 'GitHub token is missing or empty. Please provide GH_TOKEN with a PAT that can create repositories.'
+                }
             logger.info(f"✅ GitHub token validated")
             
             # Step 3: Create temp directory and project structure

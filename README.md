@@ -17,7 +17,7 @@ Automated Android project generator using templates and GitHub Actions.
 ### Trigger Workflow
 
 1. Go to **Actions** tab
-2. Select **Create Android Project** workflow
+2. Select **Initialize Android Project** workflow
 3. Click **Run workflow**
 4. Fill in the parameters:
    - Project Name
@@ -26,6 +26,7 @@ Automated Android project generator using templates and GitHub Actions.
    - Language (Kotlin/Java)
    - SDK Levels
    - JDK Version
+5. Add a repository secret named **`GH_TOKEN`** that contains a Personal Access Token (PAT) with permission to create repositories; the default Actions `GITHUB_TOKEN` cannot create the generated repository.
 
 ### Supported Languages
 
