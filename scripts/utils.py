@@ -40,7 +40,7 @@ def load_env_inputs() -> Dict[str, str]:
         'target_sdk': os.getenv('INPUT_TARGET_SDK', '35'),
         'author_name': os.getenv('INPUT_AUTHOR', 'Developer'),
         'company_domain': os.getenv('INPUT_DOMAIN', 'example.com'),
-        'github_token': os.getenv('GITHUB_TOKEN', ''),
+        'github_token': os.getenv('GH_TOKEN', ''),
         'github_actor': os.getenv('GITHUB_ACTOR', 'developer'),
     }
 
