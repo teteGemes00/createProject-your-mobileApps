@@ -1,108 +1,119 @@
-# createProject-your-mobileApps
+# Android Project Generator
 
-🚀 **Automated Android Project Generator** - Membuat Android project baru dengan mudah, seperti IDE!
+Automated Android project generator using templates and GitHub Actions.
 
-## 📋 Overview
+## Features
 
-Repo ini adalah automation tool yang membuat Android project baru dengan struktur lengkap, modular, dan siap production - **seperti Android Studio**.
+- 🚀 One-click Android project generation
+- 🎯 Support for Kotlin and Java
+- 📦 Gradle configuration (Groovy & KTS)
+- 🔧 Configurable JDK versions
+- 📱 SDK level management
+- 🔄 Automatic GitHub repository creation
+- 📊 CI/CD workflows included
 
-**Workflow:** 
-1. Trigger `init-project.yml` 
-2. Isi form input lengkap
-3. Workflow otomatis generate project + repo baru
-4. Done! Project siap development
+## Quick Start
 
-## 🎯 Features
+### Trigger Workflow
 
-- ✅ IDE-like input form (Project Name, Package, Language, SDK, JDK, dll)
-- ✅ Auto repository creation di GitHub
-- ✅ Full project structure generation
-- ✅ Multi-language support (Kotlin/Java)
-- ✅ Multi Gradle support (KTS/Groovy)
-- ✅ All SDK levels supported (9-36)
-- ✅ Included workflows (build.yml, setup-keystore.yml)
-- ✅ Complete documentation
-- ✅ Production-ready ProGuard rules
+1. Go to **Actions** tab
+2. Select **Create Android Project** workflow
+3. Click **Run workflow**
+4. Fill in the parameters:
+   - Project Name
+   - Package Name
+   - Target Repository Name
+   - Language (Kotlin/Java)
+   - SDK Levels
+   - JDK Version
 
-## 🚀 Quick Start
+### Supported Languages
 
-1. Go ke: **Actions** → **Initialize Android Project**
-2. Click **Run workflow**
-3. Fill form dengan detail project Anda
-4. Wait for completion
-5. New repository created! 🎉
+- **Kotlin** (Default)
+- **Java**
 
-## 📁 Struktur Repo
+### Gradle DSL
+
+- **KTS** (Kotlin DSL - Default)
+- **Groovy** (Traditional)
+
+## Configuration
+
+All configuration is in `config/` directory:
+
+- `android-config.json` - Android SDK and tool versions
+- `dependencies.json` - Maven dependencies
+- `gradle-versions.json` - Gradle version mappings
+- `jdk-versions.json` - JDK version information
+
+## Project Structure
 
 ```
-createProject-your-mobileApps/
+createProject-your-mobileApp/
 ├── .github/workflows/
-│   └── init-project.yml
-├── templates/
-│   ├── android/
-│   └── workflows/
-├── scripts/
-├── config/
-├── requirements.txt
-└── README.md
+│   └── init-project.yml              # Main trigger workflow
+├── templates/                        # All template files
+│   ├── android/                      # Android templates
+│   └── workflows/                    # CI/CD workflow templates
+├── scripts/                          # Python logic
+├── config/                           # Configuration files
+├── requirements.txt                  # Python dependencies
+└── README.md                         # This file
 ```
 
-## 🔧 How It Works
+## Template System
 
-1. **Input Form** - User mengisi form dengan detail project
-2. **Validation** - Python script validate semua input
-3. **Generation** - Template dirender dengan variable
-4. **GitHub Repo** - Repo baru dibuat otomatis
-5. **Commit** - Semua files di-commit dan di-push
-6. **Workflows** - build.yml dan setup-keystore.yml di-generate
-7. **Done** - Project siap development
+Templates use Jinja2 for variable substitution:
 
-## 📝 Input Form Options
-
-| Input | Type | Options | Default |
-|-------|------|---------|----------|
-| Project Name | Text | Any | MyApp |
-| Package Name | Text | com.company.app | com.example.myapp |
-| Target Repo | Text | Any | - |
-| Language | Choice | kotlin, java | kotlin |
-| Gradle DSL | Choice | kts, groovy | kts |
-| Gradle Version | Choice | latest, 8.4, 8.3, ... | latest |
-| JDK | Choice | 8-21 | 11 |
-| Min SDK | Choice | 9-36 | 21 |
-| Target SDK | Choice | 28-36 | 35 |
-| Author | Text | Any | Developer |
-| Domain | Text | Any | example.com |
-
-## 📦 Requirements
-
-```
-Jinja2==3.1.2
-PyGithub==2.1.1
-python-dotenv==1.0.0
-requests==2.31.0
-pyyaml==6.0.1
+```jinja2
+{{ project_name }}
+{{ package_name }}
+{{ min_sdk }}
+{{ target_sdk }}
 ```
 
-## 📚 Documentation
+## Generated Projects
 
-- Configuration: See `config/` folder
-- Templates: See `templates/` folder
-- Scripts: See `scripts/` folder
+Each generated project includes:
 
-## 🔐 Security
+- ✅ Complete Gradle configuration
+- ✅ Android resources (layouts, strings, colors)
+- ✅ MainActivity template (Kotlin/Java)
+- ✅ AndroidManifest.xml
+- ✅ ProGuard rules
+- ✅ .gitignore
+- ✅ CI/CD workflows
+- ✅ Documentation (README, SETUP, ARCHITECTURE)
 
-- Uses GitHub token for repository creation
-- Repositories created as **private** by default
-- Token scoped to: `contents:write`, `repo`
+## Requirements
 
-## 🤝 Contributing
+- Python 3.9+
+- PyGithub
+- Jinja2
+- PyYAML
 
-Pull requests welcome!
+## Development
 
-## 📄 License
+### Setup
 
-MIT License
+```bash
+pip install -r requirements.txt
+```
 
----
+### Testing
 
-**Made with ❤️ for Android Developers**
+```bash
+pytest tests/ -v
+```
+
+### Linting
+
+```bash
+flake8 scripts/
+pylint scripts/
+black scripts/
+```
+
+## License
+
+MIT License - see LICENSE file
